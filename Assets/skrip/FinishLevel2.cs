@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class FinishLevel2 : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI finishText;
+    public GameObject finishPanel;
 
     [Header("Player")]
     public CarController carController;
@@ -16,9 +18,10 @@ public class FinishLevel2 : MonoBehaviour
         Time.timeScale = 1f;
 
         if (finishText != null)
-        {
             finishText.text = "";
-        }
+
+        if (finishPanel != null)
+            finishPanel.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -30,9 +33,10 @@ public class FinishLevel2 : MonoBehaviour
             isFinished = true;
 
             if (finishText != null)
-            {
                 finishText.text = "PERFECT GAME";
-            }
+
+            if (finishPanel != null)
+                finishPanel.SetActive(true);
 
             if (carController != null)
             {
@@ -44,5 +48,12 @@ public class FinishLevel2 : MonoBehaviour
 
             Time.timeScale = 0f;
         }
+    }
+
+    public void BackToLevelSelect()
+    {
+        Time.timeScale = 1f;
+        MainMenu.openLevelPanelAfterLoad = true;
+        SceneManager.LoadScene("Main Menu");
     }
 }
